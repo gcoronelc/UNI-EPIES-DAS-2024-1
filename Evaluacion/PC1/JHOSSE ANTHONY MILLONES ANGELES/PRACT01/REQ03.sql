@@ -1,0 +1,26 @@
+--REQUERIMENTO 3
+/*
+SE NECESITA SABER CUAL ES EL PRODUCTO MAS SOLICITADO POR CADA CLIENTE, SE DEBE MOSTRAR LOS EMPATES.
+SE CONSIDERA EL PRODUCTO MAS SOLICITADO EL QUE MAS UNIDADES HA COMPRADO EL CLIENTE
+*/
+USE Northwind;
+SELECT 
+    c.ContactName AS [NOMBRE DEL CLIENTE], 
+    p.ProductName AS [NOMBRE PRODUCTO], 
+    COUNT(od.OrderID) AS [CANTIDAD PEDIDOS], 
+    SUM(od.Quantity) AS [UNIDADES VENDIDAS]
+FROM 
+    Customers c
+JOIN 
+    Orders o ON c.CustomerID = o.CustomerID
+JOIN 
+    [Order Details] od ON o.OrderID = od.OrderID
+JOIN 
+    Products p ON od.ProductID = p.ProductID
+GROUP BY 
+    c.ContactName, 
+    p.ProductName
+ORDER BY 
+    [UNIDADES VENDIDAS] DESC;
+
+GO
